@@ -1,9 +1,13 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
+using CFDI.Data.Contexts;
 using Nomina.WorkerTimbrado;
 using Nomina.WorkerTimbrado.Models;
 using Nomina.WorkerTimbrado.Services;
+using CFDI.Data.Contexts;
+using HG.Utils;
 using Polly;
 
 var builder = Host.CreateDefaultBuilder(args)
@@ -18,13 +22,16 @@ var builder = Host.CreateDefaultBuilder(args)
         }).AddTransientHttpErrorPolicy(builder =>
             builder.WaitAndRetryAsync(3, retry => TimeSpan.FromSeconds(Math.Pow(2, retry))));
 
-        services.AddTransient<LiquidacionRepository>(sp =>
+        services.AddTransient<LiquidacionRepository>();
+
+        services.AddScoped<CfdiDbContext>(sp =>
         {
             var settings = sp.GetRequiredService<IOptions<WorkerSettings>>().Value;
-            return new LiquidacionRepository(settings.ConnectionString);
+            return DbContextFactory.Crear<CfdiDbContext>(settings.ConnectionString);
         });
 
         services.AddHostedService<Worker>();
+        services.AddHostedService<MigracionWorker>();
     });
 
 var host = builder.Build();
