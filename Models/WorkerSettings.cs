@@ -3,6 +3,7 @@ namespace Nomina.WorkerTimbrado.Models
     public class WorkerSettings
     {
         public string ConnectionString { get; set; } = string.Empty;
+        public string LegacyConnectionString { get; set; } = string.Empty;
         public string ApiBaseUrl { get; set; } = string.Empty;
         public int PollIntervalSeconds { get; set; } = 60;
         public int MaxRetryCount { get; set; } = 3;
