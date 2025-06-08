@@ -1,12 +1,8 @@
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Microsoft.EntityFrameworkCore;
 using CFDI.Data.Contexts;
 using Nomina.WorkerTimbrado;
 using Nomina.WorkerTimbrado.Models;
 using Nomina.WorkerTimbrado.Services;
-using CFDI.Data.Contexts;
 using HG.Utils;
 using Polly;
 
