@@ -11,7 +11,15 @@ namespace TimbradoNominaDataAccess.Repositories
         //private readonly CfdiDbContext _context;
         private readonly IConfiguration _configuration;
 
-        public LiquidacionRepository(IConfiguration configuration 
+        private static readonly Dictionary<int, string> _connectionMap = new()
+        {
+            { 1, "CFDI2019" },
+            { 2, "CFDI2008" },
+            { 3, "CFDI2008" },
+            { 4, "CFDI2008" }
+        };
+
+        public LiquidacionRepository(IConfiguration configuration
             //,CfdiDbContext context
             )
         {
@@ -20,24 +28,30 @@ namespace TimbradoNominaDataAccess.Repositories
             //_context = context;
         }
 
-        public async Task<List<liquidacionOperador>> GetPendientesAsync(int batchSize, CancellationToken ct)
+        private string ObtenerNombreConnectionString(int companiaId)
+        {
+            if (_connectionMap.TryGetValue(companiaId, out var nombre))
+            {
+                return nombre;
+            }
+            throw new ArgumentException($"ID de compaÃ±Ã­a no soportado: {companiaId}");
+        }
+
+        private CfdiDbContext CrearContexto(int companiaId = 1)
+        {
+            var connectionString = DbContextFactory.ObtenerConnectionString(
+                companiaId,
+                _configuration,
+                ObtenerNombreConnectionString);
+
+            return DbContextFactory.Crear<CfdiDbContext>(connectionString);
+        }
+
+        public async Task<List<liquidacionOperador>> GetPendientesAsync(int batchSize, CancellationToken ct, int companiaId = 1)
         {
             var now = DateTime.UtcNow;
 
-            // Obtiene la cadena de conexión de acuerdo con la compañía
-            var connectionString = DbContextFactory.ObtenerConnectionString(
-                1,
-                _configuration,
-                companiaId => companiaId switch
-                {
-                    1 => "CFDI2019",
-                    2 => "CFDI2008",
-                    3 => "CFDI2008",
-                    4 => "CFDI2008",
-                    _ => throw new ArgumentException($"ID de compañía no soportado: {companiaId}")
-                });
-
-            using var _context = DbContextFactory.Crear<CfdiDbContext>(connectionString);
+            using var _context = CrearContexto(companiaId);
 
             var A = await _context.liquidacionOperadors.AsNoTracking()
                 .Where(l => l.Estatus == 0 || (l.Estatus == 4 && l.FechaProximoIntento <= now))
@@ -55,22 +69,9 @@ namespace TimbradoNominaDataAccess.Repositories
             return A;
         }
 
-        public async Task<bool> MarcarEnProcesoAsync(liquidacionOperador liq, CancellationToken ct)
+        public async Task<bool> MarcarEnProcesoAsync(liquidacionOperador liq, CancellationToken ct, int companiaId = 1)
         {
-            // Obtiene la cadena de conexión de acuerdo con la compañía
-            var connectionString = DbContextFactory.ObtenerConnectionString(
-                1,
-                _configuration,
-                companiaId => companiaId switch
-                {
-                    1 => "CFDI2019",
-                    2 => "CFDI2008",
-                    3 => "CFDI2008",
-                    4 => "CFDI2008",
-                    _ => throw new ArgumentException($"ID de compañía no soportado: {companiaId}")
-                });
-
-            using var _context = DbContextFactory.Crear<CfdiDbContext>(connectionString);
+            using var _context = CrearContexto(companiaId);
 
             var rows = await _context.liquidacionOperadors
                 .Where(l => l.IdLiquidacion == liq.IdLiquidacion && l.IdCompania == liq.IdCompania && (l.Estatus == 0 || l.Estatus == 4))
@@ -82,45 +83,19 @@ namespace TimbradoNominaDataAccess.Repositories
             return rows > 0;
         }
 
-        public async Task SetRequiereRevisionAsync(liquidacionOperador liq, CancellationToken ct)
+        public async Task SetRequiereRevisionAsync(liquidacionOperador liq, CancellationToken ct, int companiaId = 1)
         {
-            // Obtiene la cadena de conexión de acuerdo con la compañía
-            var connectionString = DbContextFactory.ObtenerConnectionString(
-                1,
-                _configuration,
-                companiaId => companiaId switch
-                {
-                    1 => "CFDI2019",
-                    2 => "CFDI2008",
-                    3 => "CFDI2008",
-                    4 => "CFDI2008",
-                    _ => throw new ArgumentException($"ID de compañía no soportado: {companiaId}")
-                });
-
-            using var _context = DbContextFactory.Crear<CfdiDbContext>(connectionString);
+            using var _context = CrearContexto(companiaId);
             await _context.liquidacionOperadors
                 .Where(l => l.IdLiquidacion == liq.IdLiquidacion && l.IdCompania == liq.IdCompania)
                 .ExecuteUpdateAsync(s => s.SetProperty(l => l.Estatus, (byte)6), ct);
         }
 
-        public async Task SetErrorTransitorioAsync(liquidacionOperador liq, int backoffMinutes, CancellationToken ct)
+        public async Task SetErrorTransitorioAsync(liquidacionOperador liq, int backoffMinutes, CancellationToken ct, int companiaId = 1)
         {
             var next = DateTime.UtcNow.AddMinutes(backoffMinutes);
 
-            // Obtiene la cadena de conexión de acuerdo con la compañía
-            var connectionString = DbContextFactory.ObtenerConnectionString(
-                1,
-                _configuration,
-                companiaId => companiaId switch
-                {
-                    1 => "CFDI2019",
-                    2 => "CFDI2008",
-                    3 => "CFDI2008",
-                    4 => "CFDI2008",
-                    _ => throw new ArgumentException($"ID de compañía no soportado: {companiaId}")
-                });
-
-            using var _context = DbContextFactory.Crear<CfdiDbContext>(connectionString);
+            using var _context = CrearContexto(companiaId);
 
             await _context.liquidacionOperadors
                 .Where(l => l.IdLiquidacion == liq.IdLiquidacion && l.IdCompania == liq.IdCompania)
@@ -129,22 +104,9 @@ namespace TimbradoNominaDataAccess.Repositories
                     .SetProperty(l => l.FechaProximoIntento, next), ct);
         }
 
-        public async Task SetErrorAsync(liquidacionOperador liq, int status, string message, CancellationToken ct)
+        public async Task SetErrorAsync(liquidacionOperador liq, int status, string message, CancellationToken ct, int companiaId = 1)
         {
-            // Obtiene la cadena de conexión de acuerdo con la compañía
-            var connectionString = DbContextFactory.ObtenerConnectionString(
-                1,
-                _configuration,
-                companiaId => companiaId switch
-                {
-                    1 => "CFDI2019",
-                    2 => "CFDI2008",
-                    3 => "CFDI2008",
-                    4 => "CFDI2008",
-                    _ => throw new ArgumentException($"ID de compañía no soportado: {companiaId}")
-                });
-
-            using var _context = DbContextFactory.Crear<CfdiDbContext>(connectionString);
+            using var _context = CrearContexto(companiaId);
 
             await _context.liquidacionOperadors
                 .Where(l => l.IdLiquidacion == liq.IdLiquidacion && l.IdCompania == liq.IdCompania)
