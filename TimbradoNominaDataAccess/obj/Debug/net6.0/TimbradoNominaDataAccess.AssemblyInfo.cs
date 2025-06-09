@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TimbradoNominaDataAccess")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a8d84ebed32297370e748a00ff36ea0a3faa1438")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0da8f1bd666a011653476072c2ea61d7dac11adb")]
 [assembly: System.Reflection.AssemblyProductAttribute("TimbradoNominaDataAccess")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TimbradoNominaDataAccess")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

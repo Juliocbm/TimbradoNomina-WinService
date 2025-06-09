@@ -54,3 +54,15 @@ Para instalarlo como servicio de Windows se puede publicar el proyecto y registr
 
 Los intervalos de consulta, tamaño de lote y límites de reintentos se controlan con los valores definidos en `WorkerSettings`.
 
+## 🗒️ Mensajes de estatus
+
+El campo `MensajeCorto` refleja el estado actual de cada liquidación:
+
+| Estatus | Mensaje sugerido |
+|---------|------------------|
+| 1       | En proceso |
+| 2       | Error de validación |
+| 3       | Error definitivo |
+| 4       | Error transitorio. Esperando reintento |
+| 6       | Requiere revisión |
+

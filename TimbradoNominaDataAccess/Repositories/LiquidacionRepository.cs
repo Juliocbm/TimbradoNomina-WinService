@@ -19,13 +19,9 @@ namespace TimbradoNominaDataAccess.Repositories
             { 4, "CFDI2008" }
         };
 
-        public LiquidacionRepository(IConfiguration configuration
-            //,CfdiDbContext context
-            )
+        public LiquidacionRepository(IConfiguration configuration)
         {
             _configuration = configuration;
-
-            //_context = context;
         }
 
         private string ObtenerNombreConnectionString(int companiaId)
@@ -47,14 +43,14 @@ namespace TimbradoNominaDataAccess.Repositories
             return DbContextFactory.Crear<CfdiDbContext>(connectionString);
         }
 
-        public async Task<List<liquidacionOperador>> GetPendientesAsync(int batchSize, CancellationToken ct, int companiaId = 1)
+        public async Task<List<liquidacionOperador>> GetPendientesAsync(int batchSize, CancellationToken ct)
         {
             var now = DateTime.UtcNow;
 
-            using var _context = CrearContexto(companiaId);
+            using var _context = CrearContexto();
 
             var A = await _context.liquidacionOperadors.AsNoTracking()
-                .Where(l => l.Estatus == 0 || (l.Estatus == 4 && l.FechaProximoIntento <= now))
+                .Where(l => (l.Estatus == 0 || (l.Estatus == 4 && l.FechaProximoIntento <= now)) && (l.XMLTimbrado != null || l.PDFTimbrado != null || l.UUID != null))
                 .OrderBy(l => l.FechaRegistro)
                 .Select(l => new liquidacionOperador
                 {
@@ -69,44 +65,48 @@ namespace TimbradoNominaDataAccess.Repositories
             return A;
         }
 
-        public async Task<bool> MarcarEnProcesoAsync(liquidacionOperador liq, CancellationToken ct, int companiaId = 1)
+        public async Task<bool> MarcarEnProcesoAsync(liquidacionOperador liq, CancellationToken ct)
         {
-            using var _context = CrearContexto(companiaId);
+            using var _context = CrearContexto();
 
             var rows = await _context.liquidacionOperadors
                 .Where(l => l.IdLiquidacion == liq.IdLiquidacion && l.IdCompania == liq.IdCompania && (l.Estatus == 0 || l.Estatus == 4))
                 .ExecuteUpdateAsync(s => s
                     .SetProperty(l => l.Estatus, (byte)1)
                     .SetProperty(l => l.Intentos, l => l.Intentos + 1)
-                    .SetProperty(l => l.UltimoIntento, l => l.Intentos + 1), ct);
+                    .SetProperty(l => l.UltimoIntento, l => l.Intentos + 1)
+                    .SetProperty(l => l.MensajeCorto, "En proceso"), ct);
 
             return rows > 0;
         }
 
-        public async Task SetRequiereRevisionAsync(liquidacionOperador liq, CancellationToken ct, int companiaId = 1)
+        public async Task SetRequiereRevisionAsync(liquidacionOperador liq, CancellationToken ct)
         {
-            using var _context = CrearContexto(companiaId);
+            using var _context = CrearContexto();
             await _context.liquidacionOperadors
                 .Where(l => l.IdLiquidacion == liq.IdLiquidacion && l.IdCompania == liq.IdCompania)
-                .ExecuteUpdateAsync(s => s.SetProperty(l => l.Estatus, (byte)6), ct);
+                .ExecuteUpdateAsync(s => s
+                    .SetProperty(l => l.Estatus, (byte)6)
+                    .SetProperty(l => l.MensajeCorto, "Requiere revisión"), ct);
         }
 
-        public async Task SetErrorTransitorioAsync(liquidacionOperador liq, int backoffMinutes, CancellationToken ct, int companiaId = 1)
+        public async Task SetErrorTransitorioAsync(liquidacionOperador liq, int backoffMinutes, CancellationToken ct)
         {
             var next = DateTime.UtcNow.AddMinutes(backoffMinutes);
 
-            using var _context = CrearContexto(companiaId);
+            using var _context = CrearContexto();
 
             await _context.liquidacionOperadors
                 .Where(l => l.IdLiquidacion == liq.IdLiquidacion && l.IdCompania == liq.IdCompania)
                 .ExecuteUpdateAsync(s => s
                     .SetProperty(l => l.Estatus, (byte)4)
-                    .SetProperty(l => l.FechaProximoIntento, next), ct);
+                    .SetProperty(l => l.FechaProximoIntento, next)
+                    .SetProperty(l => l.MensajeCorto, "Error transitorio. Esperando reintento"), ct);
         }
 
-        public async Task SetErrorAsync(liquidacionOperador liq, int status, string message, CancellationToken ct, int companiaId = 1)
+        public async Task SetErrorAsync(liquidacionOperador liq, int status, string message, CancellationToken ct)
         {
-            using var _context = CrearContexto(companiaId);
+            using var _context = CrearContexto();
 
             await _context.liquidacionOperadors
                 .Where(l => l.IdLiquidacion == liq.IdLiquidacion && l.IdCompania == liq.IdCompania)
