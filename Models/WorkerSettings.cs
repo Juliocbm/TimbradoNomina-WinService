@@ -9,5 +9,6 @@ namespace Nomina.WorkerTimbrado.Models
         public int MaxRetryCount { get; set; } = 3;
         public int BatchSize { get; set; } = 50;
         public int BackoffMinutes { get; set; } = 5;
+        public int MigracionIntervalMinutes { get; set; } = 1;
     }
 }
