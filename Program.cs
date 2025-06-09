@@ -2,9 +2,11 @@ using Microsoft.Extensions.Options;
 using CFDI.Data.Contexts;
 using Nomina.WorkerTimbrado;
 using Nomina.WorkerTimbrado.Models;
-using Nomina.WorkerTimbrado.Services;
+//using Nomina.WorkerTimbrado.Services;
 using HG.Utils;
 using Polly;
+using TimbradoNominaDataAccess.WebServices;
+using TimbradoNominaDataAccess.Repositories;
 
 var builder = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) =>
@@ -20,11 +22,11 @@ var builder = Host.CreateDefaultBuilder(args)
 
         services.AddTransient<LiquidacionRepository>();
 
-        services.AddScoped<CfdiDbContext>(sp =>
-        {
-            var settings = sp.GetRequiredService<IOptions<WorkerSettings>>().Value;
-            return DbContextFactory.Crear<CfdiDbContext>(settings.ConnectionString);
-        });
+        //services.AddScoped<CfdiDbContext>(sp =>
+        //{
+        //    var settings = sp.GetRequiredService<IOptions<WorkerSettings>>().Value;
+        //    return DbContextFactory.Crear<CfdiDbContext>(settings.ConnectionString);
+        //});
 
         services.AddHostedService<Worker>();
         services.AddHostedService<MigracionWorker>();

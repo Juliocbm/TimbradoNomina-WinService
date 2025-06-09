@@ -23,7 +23,7 @@ public class MigracionWorker : BackgroundService
         {
             try
             {
-                await EjecutarMigracionAsync(stoppingToken);
+                //await EjecutarMigracionAsync(stoppingToken);
             }
             catch (Exception ex)
             {
