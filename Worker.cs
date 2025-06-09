@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Options;
 using Nomina.WorkerTimbrado.Models;
-using Nomina.WorkerTimbrado.Services;
+using TimbradoNominaDataAccess.Repositories;
+using TimbradoNominaDataAccess.WebServices;
 
 namespace Nomina.WorkerTimbrado
 {

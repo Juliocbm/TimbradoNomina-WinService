@@ -11,9 +11,13 @@
 
   <ItemGroup>
     <Compile Remove="libs\**" />
+    <Compile Remove="TimbradoNominaDataAccess\**" />
     <Content Remove="libs\**" />
+    <Content Remove="TimbradoNominaDataAccess\**" />
     <EmbeddedResource Remove="libs\**" />
+    <EmbeddedResource Remove="TimbradoNominaDataAccess\**" />
     <None Remove="libs\**" />
+    <None Remove="TimbradoNominaDataAccess\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,5 +29,6 @@
   <ItemGroup>
     <ProjectReference Include="libs\Cfdi.Data\CFDI.Data.csproj" />
     <ProjectReference Include="libs\Utils\Hg.Utils.csproj" />
+    <ProjectReference Include="TimbradoNominaDataAccess\TimbradoNominaDataAccess.csproj" />
   </ItemGroup>
 </Project>

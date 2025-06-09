@@ -1,8 +1,8 @@
+using CFDI.Data.Entities;
 using Microsoft.Extensions.Logging;
 using System.Net.Http.Json;
-using Nomina.WorkerTimbrado.Models;
 
-namespace Nomina.WorkerTimbrado.Services
+namespace TimbradoNominaDataAccess.WebServices
 {
     public class TimbradoApiClient
     {
@@ -15,7 +15,7 @@ namespace Nomina.WorkerTimbrado.Services
             _logger = logger;
         }
 
-        public async Task<HttpResponseMessage> TimbrarAsync(Liquidacion liq, CancellationToken ct)
+        public async Task<HttpResponseMessage> TimbrarAsync(liquidacionOperador liq, CancellationToken ct)
         {
             var url = $"api/timbrar/{liq.IdLiquidacion}/{liq.IdCompania}";
             try

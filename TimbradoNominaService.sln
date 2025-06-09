@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CFDI.Data", "libs\Cfdi.Data
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hg.Utils", "libs\Utils\Hg.Utils.csproj", "{A1FF214A-A7D2-67F0-A850-1E21D5F2D45E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimbradoNominaDataAccess", "TimbradoNominaDataAccess\TimbradoNominaDataAccess.csproj", "{5E629D7B-DE63-46B3-B819-ACD0653D2283}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{A1FF214A-A7D2-67F0-A850-1E21D5F2D45E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1FF214A-A7D2-67F0-A850-1E21D5F2D45E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1FF214A-A7D2-67F0-A850-1E21D5F2D45E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E629D7B-DE63-46B3-B819-ACD0653D2283}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E629D7B-DE63-46B3-B819-ACD0653D2283}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E629D7B-DE63-46B3-B819-ACD0653D2283}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E629D7B-DE63-46B3-B819-ACD0653D2283}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

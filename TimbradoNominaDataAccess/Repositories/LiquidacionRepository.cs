@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using CFDI.Data.Contexts;
-using Nomina.WorkerTimbrado.Models;
+using CFDI.Data.Entities;
 
-namespace Nomina.WorkerTimbrado.Services
+namespace TimbradoNominaDataAccess.Repositories
 {
     public class LiquidacionRepository
     {
@@ -13,14 +13,14 @@ namespace Nomina.WorkerTimbrado.Services
             _context = context;
         }
 
-        public async Task<List<Liquidacion>> GetPendientesAsync(int batchSize, CancellationToken ct)
+        public async Task<List<liquidacionOperador>> GetPendientesAsync(int batchSize, CancellationToken ct)
         {
             var now = DateTime.UtcNow;
 
             return await _context.liquidacionOperadors.AsNoTracking()
                 .Where(l => l.Estatus == 0 && (l.FechaProximoIntento == null || l.FechaProximoIntento <= now))
                 .OrderBy(l => l.FechaRegistro)
-                .Select(l => new Liquidacion
+                .Select(l => new liquidacionOperador
                 {
                     IdLiquidacion = l.IdLiquidacion,
                     IdCompania = l.IdCompania,
@@ -31,7 +31,7 @@ namespace Nomina.WorkerTimbrado.Services
                 .ToListAsync(ct);
         }
 
-        public async Task<bool> MarcarEnProcesoAsync(Liquidacion liq, CancellationToken ct)
+        public async Task<bool> MarcarEnProcesoAsync(liquidacionOperador liq, CancellationToken ct)
         {
             var rows = await _context.liquidacionOperadors
                 .Where(l => l.IdLiquidacion == liq.IdLiquidacion && l.IdCompania == liq.IdCompania && l.Estatus == 0)
@@ -43,14 +43,14 @@ namespace Nomina.WorkerTimbrado.Services
             return rows > 0;
         }
 
-        public async Task SetRequiereRevisionAsync(Liquidacion liq, CancellationToken ct)
+        public async Task SetRequiereRevisionAsync(liquidacionOperador liq, CancellationToken ct)
         {
             await _context.liquidacionOperadors
                 .Where(l => l.IdLiquidacion == liq.IdLiquidacion && l.IdCompania == liq.IdCompania)
                 .ExecuteUpdateAsync(s => s.SetProperty(l => l.Estatus, (byte)6), ct);
         }
 
-        public async Task SetErrorTransitorioAsync(Liquidacion liq, int backoffMinutes, CancellationToken ct)
+        public async Task SetErrorTransitorioAsync(liquidacionOperador liq, int backoffMinutes, CancellationToken ct)
         {
             var next = DateTime.UtcNow.AddMinutes(backoffMinutes);
 
@@ -61,7 +61,7 @@ namespace Nomina.WorkerTimbrado.Services
                     .SetProperty(l => l.FechaProximoIntento, next), ct);
         }
 
-        public async Task SetErrorAsync(Liquidacion liq, int status, string message, CancellationToken ct)
+        public async Task SetErrorAsync(liquidacionOperador liq, int status, string message, CancellationToken ct)
         {
             await _context.liquidacionOperadors
                 .Where(l => l.IdLiquidacion == liq.IdLiquidacion && l.IdCompania == liq.IdCompania)
