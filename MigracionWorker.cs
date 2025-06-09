@@ -30,7 +30,7 @@ public class MigracionWorker : BackgroundService
                 _logger.LogError(ex, "Error en MigracionWorker");
             }
 
-            await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
+            await Task.Delay(TimeSpan.FromMinutes(_settings.MigracionIntervalMinutes), stoppingToken);
         }
     }
 
