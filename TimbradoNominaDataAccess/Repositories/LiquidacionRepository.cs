@@ -40,7 +40,7 @@ namespace TimbradoNominaDataAccess.Repositories
             using var _context = DbContextFactory.Crear<CfdiDbContext>(connectionString);
 
             var A = await _context.liquidacionOperadors.AsNoTracking()
-                .Where(l => l.Estatus == 0 && (l.FechaProximoIntento == null || l.FechaProximoIntento <= now))
+                .Where(l => l.Estatus == 0 || (l.Estatus == 4 && l.FechaProximoIntento <= now))
                 .OrderBy(l => l.FechaRegistro)
                 .Select(l => new liquidacionOperador
                 {
@@ -73,7 +73,7 @@ namespace TimbradoNominaDataAccess.Repositories
             using var _context = DbContextFactory.Crear<CfdiDbContext>(connectionString);
 
             var rows = await _context.liquidacionOperadors
-                .Where(l => l.IdLiquidacion == liq.IdLiquidacion && l.IdCompania == liq.IdCompania && l.Estatus == 0)
+                .Where(l => l.IdLiquidacion == liq.IdLiquidacion && l.IdCompania == liq.IdCompania && (l.Estatus == 0 || l.Estatus == 4))
                 .ExecuteUpdateAsync(s => s
                     .SetProperty(l => l.Estatus, (byte)1)
                     .SetProperty(l => l.Intentos, l => l.Intentos + 1)
