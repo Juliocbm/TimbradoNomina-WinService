@@ -1,0 +1,8 @@
+﻿################################################################################
+# Este archivo .gitignore ha sido creado automáticamente por Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/TimbradoNominaService/FileContentIndex
+/.vs/TimbradoNominaService/v17/.suo
+/.vs/TimbradoNominaService/v17/DocumentLayout.json
+/obj/Debug/net6.0/TimbradoNominaService.AssemblyInfo.cs
