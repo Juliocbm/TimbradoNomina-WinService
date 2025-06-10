@@ -8,12 +8,19 @@ using TimbradoNominaDataAccess.WebServices;
 
 namespace Nomina.WorkerTimbrado;
 
+/// <summary>
+/// Servicio encargado de migrar periódicamente las liquidaciones desde la base
+/// de datos legada hacia la actual.
+/// </summary>
 public class MigracionWorker : BackgroundService
 {
     private readonly ILogger<MigracionWorker> _logger;
     private readonly WorkerSettings _settings;
     private readonly LiquidacionRepository _repository;
 
+    /// <summary>
+    /// Crea una nueva instancia de <see cref="MigracionWorker"/>.
+    /// </summary>
     public MigracionWorker(ILogger<MigracionWorker> logger, IOptions<WorkerSettings> settings, LiquidacionRepository repository)
     {
         _logger = logger;
@@ -21,6 +28,9 @@ public class MigracionWorker : BackgroundService
         _repository = repository;
     }
 
+    /// <summary>
+    /// Ejecuta el ciclo de migración de forma periódica mientras el servicio esté activo.
+    /// </summary>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         while (!stoppingToken.IsCancellationRequested)
@@ -38,6 +48,10 @@ public class MigracionWorker : BackgroundService
         }
     }
 
+    /// <summary>
+    /// Ejecuta la operación de migración y registra cuántos registros se copiaron.
+    /// </summary>
+    /// <param name="ct">Token de cancelación.</param>
     private async Task EjecutarMigracionAsync(CancellationToken ct)
     {
         int nuevasLiquidaciones = 0;
