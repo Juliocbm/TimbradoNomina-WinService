@@ -3,6 +3,8 @@ using HG.Utils;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using Nomina.WorkerTimbrado.Models;
+using TimbradoNominaDataAccess.Repositories;
+using TimbradoNominaDataAccess.WebServices;
 
 namespace Nomina.WorkerTimbrado;
 
@@ -10,11 +12,13 @@ public class MigracionWorker : BackgroundService
 {
     private readonly ILogger<MigracionWorker> _logger;
     private readonly WorkerSettings _settings;
+    private readonly LiquidacionRepository _repository;
 
-    public MigracionWorker(ILogger<MigracionWorker> logger, IOptions<WorkerSettings> settings)
+    public MigracionWorker(ILogger<MigracionWorker> logger, IOptions<WorkerSettings> settings, LiquidacionRepository repository)
     {
         _logger = logger;
         _settings = settings.Value;
+        _repository = repository;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -23,7 +27,7 @@ public class MigracionWorker : BackgroundService
         {
             try
             {
-                //await EjecutarMigracionAsync(stoppingToken);
+                await EjecutarMigracionAsync(stoppingToken);
             }
             catch (Exception ex)
             {
@@ -36,28 +40,17 @@ public class MigracionWorker : BackgroundService
 
     private async Task EjecutarMigracionAsync(CancellationToken ct)
     {
-        using var origen = DbContextFactory.Crear<CfdiDbContext>(_settings.LegacyConnectionString);
-        using var destino = DbContextFactory.Crear<CfdiDbContext>(_settings.ConnectionString);
-
-        var ultimaFecha = await destino.liquidacionOperadors
-            .OrderByDescending(l => l.FechaRegistro)
-            .Select(l => (DateTime?)l.FechaRegistro)
-            .FirstOrDefaultAsync(ct) ?? DateTime.MinValue;
-
-        var nuevos = await origen.liquidacionOperadors
-            .Where(l => l.FechaRegistro > ultimaFecha)
-            .AsNoTracking()
-            .ToListAsync(ct);
-
-        if (nuevos.Count == 0)
+        int nuevasLiquidaciones = 0;
+        try
         {
-            return;
+            nuevasLiquidaciones = await _repository.MigrarLiquidacionesToServer2019(ct);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Error en migracion de liquidaciones");
         }
 
-        await destino.liquidacionOperadors.AddRangeAsync(nuevos, ct);
-        await destino.SaveChangesAsync(ct);
-
-        _logger.LogInformation("Migrados {count} registros de liquidacionOperador", nuevos.Count);
+        _logger.LogInformation("Migrados {count} registros de liquidacionOperador", nuevasLiquidaciones);
     }
 }
 

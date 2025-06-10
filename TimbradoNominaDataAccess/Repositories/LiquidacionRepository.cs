@@ -3,6 +3,7 @@ using CFDI.Data.Contexts;
 using CFDI.Data.Entities;
 using Microsoft.Extensions.Configuration;
 using HG.Utils;
+using System.Runtime;
 
 namespace TimbradoNominaDataAccess.Repositories
 {
@@ -114,5 +115,38 @@ namespace TimbradoNominaDataAccess.Repositories
                     .SetProperty(l => l.Estatus, (byte)status)
                     .SetProperty(l => l.MensajeCorto, message), ct);
         }
+
+        public async Task<int> MigrarLiquidacionesToServer2019(CancellationToken ct)
+        {
+            using var origen = CrearContexto(2);
+            using var destino = CrearContexto(1);
+
+            var pendientes = await origen.liquidacionOperadors
+                .Where(l => l.Estatus == 0)
+                .AsNoTracking()
+                .ToListAsync(ct);
+
+            if (!pendientes.Any())
+                return 0;
+
+            await destino.liquidacionOperadors.AddRangeAsync(pendientes, ct);
+            await destino.SaveChangesAsync(ct);
+
+            var ids = pendientes.Select(x => x.IdLiquidacion).ToList();
+
+            var origenParaActualizar = await origen.liquidacionOperadors
+                .Where(l => ids.Contains(l.IdLiquidacion))
+                .ToListAsync(ct);
+
+            foreach (var item in origenParaActualizar)
+            {
+                item.Estatus = 8;
+                item.MensajeCorto = "Migrada exitosamente";
+            }
+            await origen.SaveChangesAsync(ct);
+
+            return pendientes.Count;
+        }
+
     }
 }
