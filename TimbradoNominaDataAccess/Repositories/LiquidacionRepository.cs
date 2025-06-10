@@ -7,6 +7,9 @@ using System.Runtime;
 
 namespace TimbradoNominaDataAccess.Repositories
 {
+    /// <summary>
+    /// Proporciona operaciones de acceso a datos relacionadas con la entidad <see cref="liquidacionOperador"/>.
+    /// </summary>
     public class LiquidacionRepository
     {
         //private readonly CfdiDbContext _context;
@@ -20,11 +23,19 @@ namespace TimbradoNominaDataAccess.Repositories
             { 4, "CFDI2008" }
         };
 
+        /// <summary>
+        /// Inicializa una nueva instancia del repositorio.
+        /// </summary>
+        /// <param name="configuration">Origen de configuración con las cadenas de conexión.</param>
         public LiquidacionRepository(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
+        /// <summary>
+        /// Devuelve el nombre de la cadena de conexión asociada a la compañía dada.
+        /// </summary>
+        /// <param name="companiaId">Identificador de compañía.</param>
         private string ObtenerNombreConnectionString(int companiaId)
         {
             if (_connectionMap.TryGetValue(companiaId, out var nombre))
@@ -34,6 +45,10 @@ namespace TimbradoNominaDataAccess.Repositories
             throw new ArgumentException($"ID de compañía no soportado: {companiaId}");
         }
 
+        /// <summary>
+        /// Crea una nueva instancia de <see cref="CfdiDbContext"/> para la compañía indicada.
+        /// </summary>
+        /// <param name="companiaId">Id de la compañía de la que se desea obtener la conexión.</param>
         private CfdiDbContext CrearContexto(int companiaId = 1)
         {
             var connectionString = DbContextFactory.ObtenerConnectionString(
@@ -44,6 +59,11 @@ namespace TimbradoNominaDataAccess.Repositories
             return DbContextFactory.Crear<CfdiDbContext>(connectionString);
         }
 
+        /// <summary>
+        /// Obtiene un lote de liquidaciones pendientes de timbrar.
+        /// </summary>
+        /// <param name="batchSize">Número máximo de registros a recuperar.</param>
+        /// <param name="ct">Token de cancelación.</param>
         public async Task<List<liquidacionOperador>> GetPendientesAsync(int batchSize, CancellationToken ct)
         {
             var now = DateTime.UtcNow;
@@ -66,6 +86,11 @@ namespace TimbradoNominaDataAccess.Repositories
             return A;
         }
 
+        /// <summary>
+        /// Marca una liquidación como en proceso e incrementa su contador de intentos.
+        /// </summary>
+        /// <param name="liq">Liquidación a actualizar.</param>
+        /// <param name="ct">Token de cancelación.</param>
         public async Task<bool> MarcarEnProcesoAsync(liquidacionOperador liq, CancellationToken ct)
         {
             using var _context = CrearContexto();
@@ -81,6 +106,11 @@ namespace TimbradoNominaDataAccess.Repositories
             return rows > 0;
         }
 
+        /// <summary>
+        /// Marca la liquidación para revisión manual cuando excede los reintentos.
+        /// </summary>
+        /// <param name="liq">Liquidación afectada.</param>
+        /// <param name="ct">Token de cancelación.</param>
         public async Task SetRequiereRevisionAsync(liquidacionOperador liq, CancellationToken ct)
         {
             using var _context = CrearContexto();
@@ -91,6 +121,12 @@ namespace TimbradoNominaDataAccess.Repositories
                     .SetProperty(l => l.MensajeCorto, "Requiere revisión"), ct);
         }
 
+        /// <summary>
+        /// Registra un error transitorio y agenda el próximo intento.
+        /// </summary>
+        /// <param name="liq">Liquidación a actualizar.</param>
+        /// <param name="backoffMinutes">Minutos que deben pasar antes del próximo intento.</param>
+        /// <param name="ct">Token de cancelación.</param>
         public async Task SetErrorTransitorioAsync(liquidacionOperador liq, int backoffMinutes, CancellationToken ct)
         {
             var next = DateTime.UtcNow.AddMinutes(backoffMinutes);
@@ -105,6 +141,13 @@ namespace TimbradoNominaDataAccess.Repositories
                     .SetProperty(l => l.MensajeCorto, "Error transitorio. Esperando reintento"), ct);
         }
 
+        /// <summary>
+        /// Registra un error permanente o de validación para la liquidación.
+        /// </summary>
+        /// <param name="liq">Liquidación afectada.</param>
+        /// <param name="status">Código de estatus a asignar.</param>
+        /// <param name="message">Mensaje de error.</param>
+        /// <param name="ct">Token de cancelación.</param>
         public async Task SetErrorAsync(liquidacionOperador liq, int status, string message, CancellationToken ct)
         {
             using var _context = CrearContexto();
@@ -116,6 +159,11 @@ namespace TimbradoNominaDataAccess.Repositories
                     .SetProperty(l => l.MensajeCorto, message), ct);
         }
 
+        /// <summary>
+        /// Copia liquidaciones desde la base de datos legada (2008) hacia la actual (2019).
+        /// </summary>
+        /// <param name="ct">Token de cancelación.</param>
+        /// <returns>Número de registros migrados.</returns>
         public async Task<int> MigrarLiquidacionesToServer2019(CancellationToken ct)
         {
             using var origen = CrearContexto(2);

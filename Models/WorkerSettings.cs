@@ -1,5 +1,8 @@
 namespace Nomina.WorkerTimbrado.Models
 {
+    /// <summary>
+    /// Representa la configuración necesaria para el funcionamiento de los servicios de timbrado.
+    /// </summary>
     public class WorkerSettings
     {
         public string ConnectionString { get; set; } = string.Empty;
