@@ -1,6 +1,7 @@
 using CFDI.Data.Entities;
 using Microsoft.Extensions.Logging;
-using System.Net.Http.Json;
+using Microsoft.AspNetCore.WebUtilities;
+using System.Collections.Generic;
 
 namespace TimbradoNominaDataAccess.WebServices
 {
@@ -11,14 +12,15 @@ namespace TimbradoNominaDataAccess.WebServices
     {
         private readonly HttpClient _httpClient;
         private readonly ILogger<TimbradoApiClient> _logger;
+        private const string Endpoint = "api/TimbrarLiquidacion";
 
         /// <summary>
         /// Inicializa una nueva instancia del cliente de timbrado.
         /// </summary>
         public TimbradoApiClient(HttpClient httpClient, ILogger<TimbradoApiClient> logger)
         {
-            _httpClient = httpClient;
-            _logger = logger;
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         /// <summary>
@@ -28,17 +30,33 @@ namespace TimbradoNominaDataAccess.WebServices
         /// <param name="ct">Token de cancelación.</param>
         public async Task<HttpResponseMessage> TimbrarAsync(liquidacionOperador liq, CancellationToken ct)
         {
-            var url = $"api/timbrar/{liq.IdLiquidacion}/{liq.IdCompania}";
+            ArgumentNullException.ThrowIfNull(liq);
+
+            var uri = BuildRequestUri(liq);
+            using var request = new HttpRequestMessage(HttpMethod.Post, uri);
+
             try
             {
-                _logger.LogInformation("Invocando {Url}", url);
-                return await _httpClient.PostAsync(url, null, ct);
+                _logger.LogInformation("Invocando {Url}", uri);
+                return await _httpClient.SendAsync(request, ct);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error HTTP invocando {Url}", url);
+                _logger.LogError(ex, "Error HTTP invocando {Url}", uri);
                 throw;
             }
+        }
+
+        private static Uri BuildRequestUri(liquidacionOperador liq)
+        {
+            var query = new Dictionary<string, string?>
+            {
+                ["idCompania"] = liq.IdCompania.ToString(),
+                ["noLiquidacion"] = liq.IdLiquidacion.ToString()
+            };
+
+            var url = QueryHelpers.AddQueryString(Endpoint, query);
+            return new Uri(url, UriKind.Relative);
         }
     }
 }
