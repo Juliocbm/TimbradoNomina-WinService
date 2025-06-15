@@ -71,7 +71,7 @@ namespace TimbradoNominaDataAccess.Repositories
             using var _context = CrearContexto();
 
             var A = await _context.liquidacionOperadors.AsNoTracking()
-                .Where(l => (l.Estatus == 0 || (l.Estatus == 4 && l.FechaProximoIntento <= now)) && (l.XMLTimbrado != null || l.PDFTimbrado != null || l.UUID != null))
+                .Where(l => (l.Estatus == (byte)EstatusLiquidacion.Pendiente || (l.Estatus == (byte)EstatusLiquidacion.ErrorTransitorio && l.FechaProximoIntento <= now)) && (l.XMLTimbrado != null || l.PDFTimbrado != null || l.UUID != null))
                 .OrderBy(l => l.FechaRegistro)
                 .Select(l => new liquidacionOperador
                 {
@@ -98,7 +98,7 @@ namespace TimbradoNominaDataAccess.Repositories
             var rows = await _context.liquidacionOperadors
                 .Where(l => l.IdLiquidacion == liq.IdLiquidacion && l.IdCompania == liq.IdCompania && (l.Estatus == 0 || l.Estatus == 4))
                 .ExecuteUpdateAsync(s => s
-                    .SetProperty(l => l.Estatus, (byte)1)
+                    .SetProperty(l => l.Estatus, (byte)EstatusLiquidacion.EnProceso)
                     .SetProperty(l => l.Intentos, l => l.Intentos + 1)
                     .SetProperty(l => l.UltimoIntento, l => l.Intentos + 1)
                     .SetProperty(l => l.MensajeCorto, "En proceso"), ct);
@@ -117,7 +117,7 @@ namespace TimbradoNominaDataAccess.Repositories
             await _context.liquidacionOperadors
                 .Where(l => l.IdLiquidacion == liq.IdLiquidacion && l.IdCompania == liq.IdCompania)
                 .ExecuteUpdateAsync(s => s
-                    .SetProperty(l => l.Estatus, (byte)2)
+                    .SetProperty(l => l.Estatus, (byte)EstatusLiquidacion.RequiereRevision)
                     .SetProperty(l => l.MensajeCorto, "Requiere revisión"), ct);
         }
 
@@ -136,7 +136,7 @@ namespace TimbradoNominaDataAccess.Repositories
             await _context.liquidacionOperadors
                 .Where(l => l.IdLiquidacion == liq.IdLiquidacion && l.IdCompania == liq.IdCompania)
                 .ExecuteUpdateAsync(s => s
-                    .SetProperty(l => l.Estatus, (byte)4)
+                    .SetProperty(l => l.Estatus, (byte)EstatusLiquidacion.ErrorTransitorio)
                     .SetProperty(l => l.FechaProximoIntento, next)
                     .SetProperty(l => l.MensajeCorto, "Error transitorio. Esperando reintento"), ct);
         }
@@ -188,12 +188,21 @@ namespace TimbradoNominaDataAccess.Repositories
 
             foreach (var item in origenParaActualizar)
             {
-                item.Estatus = 8;
+                item.Estatus = (byte)EstatusLiquidacion.Migrada;
                 item.MensajeCorto = "Migrada exitosamente";
             }
             await origen.SaveChangesAsync(ct);
 
             return pendientes.Count;
+        }
+        public enum EstatusLiquidacion : byte
+        {
+            Pendiente = 0,
+            EnProceso = 1,
+            ErrorTransitorio = 4,
+            RequiereRevision = 2,
+            Timbrado = 3,
+            Migrada = 5
         }
 
     }

@@ -2,6 +2,7 @@ using Microsoft.Extensions.Options;
 using Nomina.WorkerTimbrado.Models;
 using TimbradoNominaDataAccess.Repositories;
 using TimbradoNominaDataAccess.WebServices;
+using static TimbradoNominaDataAccess.Repositories.LiquidacionRepository;
 
 namespace Nomina.WorkerTimbrado
 {
@@ -90,7 +91,7 @@ namespace Nomina.WorkerTimbrado
 
                     var mensaje = await response.Content.ReadAsStringAsync(ct);
                     int status = response.StatusCode >= System.Net.HttpStatusCode.BadRequest &&
-                                 response.StatusCode < System.Net.HttpStatusCode.InternalServerError ? 2 : 3;
+                                 response.StatusCode < System.Net.HttpStatusCode.InternalServerError ? (byte)EstatusLiquidacion.RequiereRevision : (byte)EstatusLiquidacion.ErrorTransitorio;
                     await _repository.SetErrorAsync(liq, status, mensaje, ct);
                     _logger.LogError("Error respuesta API {status} para liquidacion {liq}", response.StatusCode, liq.IdLiquidacion);
                 }
