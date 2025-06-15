@@ -117,7 +117,7 @@ namespace TimbradoNominaDataAccess.Repositories
             await _context.liquidacionOperadors
                 .Where(l => l.IdLiquidacion == liq.IdLiquidacion && l.IdCompania == liq.IdCompania)
                 .ExecuteUpdateAsync(s => s
-                    .SetProperty(l => l.Estatus, (byte)6)
+                    .SetProperty(l => l.Estatus, (byte)2)
                     .SetProperty(l => l.MensajeCorto, "Requiere revisión"), ct);
         }
 

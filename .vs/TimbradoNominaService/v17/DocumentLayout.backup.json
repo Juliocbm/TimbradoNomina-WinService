@@ -3,12 +3,24 @@
   "WorkspaceRootPath": "C:\\Proyectos\\CFDI\\TimbradoNominaService\\TimbradoNomina-WinService\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5E629D7B-DE63-46B3-B819-ACD0653D2283}|TimbradoNominaDataAccess\\TimbradoNominaDataAccess.csproj|c:\\proyectos\\cfdi\\timbradonominaservice\\timbradonomina-winservice\\timbradonominadataaccess\\repositories\\liquidacionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5E629D7B-DE63-46B3-B819-ACD0653D2283}|TimbradoNominaDataAccess\\TimbradoNominaDataAccess.csproj|solutionrelative:timbradonominadataaccess\\repositories\\liquidacionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{24445FC3-6061-4D78-8EC5-C7A706B86163}|TimbradoNominaService.csproj|c:\\proyectos\\cfdi\\timbradonominaservice\\timbradonomina-winservice\\migracionworker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{24445FC3-6061-4D78-8EC5-C7A706B86163}|TimbradoNominaService.csproj|solutionrelative:migracionworker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24445FC3-6061-4D78-8EC5-C7A706B86163}|TimbradoNominaService.csproj|c:\\proyectos\\cfdi\\timbradonominaservice\\timbradonomina-winservice\\worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24445FC3-6061-4D78-8EC5-C7A706B86163}|TimbradoNominaService.csproj|solutionrelative:worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24445FC3-6061-4D78-8EC5-C7A706B86163}|TimbradoNominaService.csproj|c:\\proyectos\\cfdi\\timbradonominaservice\\timbradonomina-winservice\\models\\workersettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24445FC3-6061-4D78-8EC5-C7A706B86163}|TimbradoNominaService.csproj|solutionrelative:models\\workersettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5E629D7B-DE63-46B3-B819-ACD0653D2283}|TimbradoNominaDataAccess\\TimbradoNominaDataAccess.csproj|c:\\proyectos\\cfdi\\timbradonominaservice\\timbradonomina-winservice\\timbradonominadataaccess\\webservices\\timbradoapiclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5E629D7B-DE63-46B3-B819-ACD0653D2283}|TimbradoNominaDataAccess\\TimbradoNominaDataAccess.csproj|solutionrelative:timbradonominadataaccess\\webservices\\timbradoapiclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5E629D7B-DE63-46B3-B819-ACD0653D2283}|TimbradoNominaDataAccess\\TimbradoNominaDataAccess.csproj|c:\\proyectos\\cfdi\\timbradonominaservice\\timbradonomina-winservice\\timbradonominadataaccess\\repositories\\liquidacionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5E629D7B-DE63-46B3-B819-ACD0653D2283}|TimbradoNominaDataAccess\\TimbradoNominaDataAccess.csproj|solutionrelative:timbradonominadataaccess\\repositories\\liquidacionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7D97682C-AA6B-8054-2CEB-1D395A09C359}|libs\\Cfdi.Data\\CFDI.Data.csproj|c:\\proyectos\\cfdi\\timbradonominaservice\\timbradonomina-winservice\\libs\\cfdi.data\\entities\\liquidacionoperador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -23,24 +35,12 @@
       "RelativeMoniker": "D:0:0:{24445FC3-6061-4D78-8EC5-C7A706B86163}|TimbradoNominaService.csproj|solutionrelative:appsettings.production.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{24445FC3-6061-4D78-8EC5-C7A706B86163}|TimbradoNominaService.csproj|c:\\proyectos\\cfdi\\timbradonominaservice\\timbradonomina-winservice\\models\\workersettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{24445FC3-6061-4D78-8EC5-C7A706B86163}|TimbradoNominaService.csproj|solutionrelative:models\\workersettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{24445FC3-6061-4D78-8EC5-C7A706B86163}|TimbradoNominaService.csproj|c:\\proyectos\\cfdi\\timbradonominaservice\\timbradonomina-winservice\\worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{24445FC3-6061-4D78-8EC5-C7A706B86163}|TimbradoNominaService.csproj|solutionrelative:worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{24445FC3-6061-4D78-8EC5-C7A706B86163}|TimbradoNominaService.csproj|c:\\proyectos\\cfdi\\timbradonominaservice\\timbradonomina-winservice\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{24445FC3-6061-4D78-8EC5-C7A706B86163}|TimbradoNominaService.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{24445FC3-6061-4D78-8EC5-C7A706B86163}|TimbradoNominaService.csproj|c:\\proyectos\\cfdi\\timbradonominaservice\\timbradonomina-winservice\\readme.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
       "RelativeMoniker": "D:0:0:{24445FC3-6061-4D78-8EC5-C7A706B86163}|TimbradoNominaService.csproj|solutionrelative:readme.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5E629D7B-DE63-46B3-B819-ACD0653D2283}|TimbradoNominaDataAccess\\TimbradoNominaDataAccess.csproj|c:\\proyectos\\cfdi\\timbradonominaservice\\timbradonomina-winservice\\timbradonominadataaccess\\webservices\\timbradoapiclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5E629D7B-DE63-46B3-B819-ACD0653D2283}|TimbradoNominaDataAccess\\TimbradoNominaDataAccess.csproj|solutionrelative:timbradonominadataaccess\\webservices\\timbradoapiclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{24445FC3-6061-4D78-8EC5-C7A706B86163}|TimbradoNominaService.csproj|c:\\proyectos\\cfdi\\timbradonominaservice\\timbradonomina-winservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -62,11 +62,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "liquidacionOperador.cs",
               "DocumentMoniker": "C:\\Proyectos\\CFDI\\TimbradoNominaService\\TimbradoNomina-WinService\\libs\\Cfdi.Data\\Entities\\liquidacionOperador.cs",
               "RelativeDocumentMoniker": "libs\\Cfdi.Data\\Entities\\liquidacionOperador.cs",
@@ -79,7 +79,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "README.md",
               "DocumentMoniker": "C:\\Proyectos\\CFDI\\TimbradoNominaService\\TimbradoNomina-WinService\\README.md",
               "RelativeDocumentMoniker": "README.md",
@@ -92,7 +92,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 2,
               "Title": "WorkerSettings.cs",
               "DocumentMoniker": "C:\\Proyectos\\CFDI\\TimbradoNominaService\\TimbradoNomina-WinService\\Models\\WorkerSettings.cs",
               "RelativeDocumentMoniker": "Models\\WorkerSettings.cs",
@@ -105,7 +105,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "appsettings.Development.json",
               "DocumentMoniker": "C:\\Proyectos\\CFDI\\TimbradoNominaService\\TimbradoNomina-WinService\\appsettings.Development.json",
               "RelativeDocumentMoniker": "appsettings.Development.json",
@@ -118,7 +118,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "appsettings.Production.json",
               "DocumentMoniker": "C:\\Proyectos\\CFDI\\TimbradoNominaService\\TimbradoNomina-WinService\\appsettings.Production.json",
               "RelativeDocumentMoniker": "appsettings.Production.json",
@@ -131,7 +131,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Proyectos\\CFDI\\TimbradoNominaService\\TimbradoNomina-WinService\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
@@ -144,52 +144,52 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 1,
               "Title": "Worker.cs",
               "DocumentMoniker": "C:\\Proyectos\\CFDI\\TimbradoNominaService\\TimbradoNomina-WinService\\Worker.cs",
               "RelativeDocumentMoniker": "Worker.cs",
               "ToolTip": "C:\\Proyectos\\CFDI\\TimbradoNominaService\\TimbradoNomina-WinService\\Worker.cs",
               "RelativeToolTip": "Worker.cs",
-              "ViewState": "AgIAACoAAAAAAAAAAAAYwE8AAAATAAAAAAAAAA==",
+              "ViewState": "AgIAADgAAAAAAAAAAAAgwGIAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-09T17:08:15.467Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 3,
               "Title": "TimbradoApiClient.cs",
               "DocumentMoniker": "C:\\Proyectos\\CFDI\\TimbradoNominaService\\TimbradoNomina-WinService\\TimbradoNominaDataAccess\\WebServices\\TimbradoApiClient.cs",
               "RelativeDocumentMoniker": "TimbradoNominaDataAccess\\WebServices\\TimbradoApiClient.cs",
               "ToolTip": "C:\\Proyectos\\CFDI\\TimbradoNominaService\\TimbradoNomina-WinService\\TimbradoNominaDataAccess\\WebServices\\TimbradoApiClient.cs",
               "RelativeToolTip": "TimbradoNominaDataAccess\\WebServices\\TimbradoApiClient.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACgAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-09T17:07:05.248Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "LiquidacionRepository.cs",
               "DocumentMoniker": "C:\\Proyectos\\CFDI\\TimbradoNominaService\\TimbradoNomina-WinService\\TimbradoNominaDataAccess\\Repositories\\LiquidacionRepository.cs",
               "RelativeDocumentMoniker": "TimbradoNominaDataAccess\\Repositories\\LiquidacionRepository.cs",
               "ToolTip": "C:\\Proyectos\\CFDI\\TimbradoNominaService\\TimbradoNomina-WinService\\TimbradoNominaDataAccess\\Repositories\\LiquidacionRepository.cs",
               "RelativeToolTip": "TimbradoNominaDataAccess\\Repositories\\LiquidacionRepository.cs",
-              "ViewState": "AgIAAHQAAAAAAAAAAAD4v48AAAA7AAAAAAAAAA==",
+              "ViewState": "AgIAADIAAAAAAAAAAAAawK0AAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-09T17:05:09.028Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "MigracionWorker.cs",
               "DocumentMoniker": "C:\\Proyectos\\CFDI\\TimbradoNominaService\\TimbradoNomina-WinService\\MigracionWorker.cs",
               "RelativeDocumentMoniker": "MigracionWorker.cs",
               "ToolTip": "C:\\Proyectos\\CFDI\\TimbradoNominaService\\TimbradoNomina-WinService\\MigracionWorker.cs",
               "RelativeToolTip": "MigracionWorker.cs",
-              "ViewState": "AgIAABUAAAAAAAAAAAAQwC0AAABAAAAAAAAAAA==",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAAADEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-09T17:00:51.393Z",
               "EditorCaption": ""
