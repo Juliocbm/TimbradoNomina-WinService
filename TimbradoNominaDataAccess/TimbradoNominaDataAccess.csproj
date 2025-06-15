@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\libs\Cfdi.Data\CFDI.Data.csproj" />
     <ProjectReference Include="..\libs\Utils\Hg.Utils.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
   </ItemGroup>
 
 </Project>
